@@ -15,7 +15,7 @@ You need a recent Matlab installation and the Signal Processing Toolbox on your 
 
 ### Pathes
 
-Download the repo and add the directory `sn_psgScan2edfData?? to your matlab-path. 
+Download the repo and add the directory `sn_psgScan2edfData` to your matlab-path. 
 
 ### Run the application
 
