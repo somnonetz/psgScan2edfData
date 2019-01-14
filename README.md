@@ -1,6 +1,11 @@
-# physiological-networks-tds
+# psgScan2edfData
 
-Physiological Networks TDS is an implementation of the Time Delay Stability algorithm, introduced by Bashan et al. ([doi:10.1038/ncomms1705](https://doi.org/10.1038/ncomms1705)). It can be used in sleep research to determine the topology of the physiological networks by analysis of a polysomnographic recording. The software is developed at CBMI of HTW Berlin - University of Applied Sciences (https://cbmi.htw-berlin.de)
+Converts polysomnographies to standardized edf via matlab structs. 
+
+* `sn_edfScan2edfData`: Converts and EDF and writes it as a new EDF with standardized signal labels and - as an option - referenced signals
+  * `sn_edfScan2matScan`: Reads EDF to matlab structs and cells
+  * `sn_matScan2matData`: Does the actual conversion
+  * `sn_matData2edfData`: writes the data back to EDF
 
 ## Getting started
 
@@ -10,14 +15,13 @@ You need a recent Matlab installation and the Signal Processing Toolbox on your 
 
 ### Pathes
 
-Download the repo and add the directory pn-tds to your matlab-path. 
-If you don't have the psgscan-2-edfdata repository downloaded, you need to add also the directory externals to your matlab path
+Download the repo and add the directory `sn_psgScan2edfData?? to your matlab-path. 
 
 ### Run the application
 
-The basic function call is: @sn_TDS('data',EDF-FILE)@
+The basic function call is: `[status,header,signalHeader,signalCell,newheader,newsignalHeader,newsignalCell] = sn_edfScan2edfData('data',PATH-TO-EDF-FILE)`
 
-Please check the documentation with in the matlabfiles for further information. 
+Please check the documentation within the matlabfiles for further information. 
 
 
 
