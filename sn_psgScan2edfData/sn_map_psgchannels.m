@@ -62,7 +62,7 @@ myinput.channelname = NaN;
 
 %% Optional input defaults
 %mapfile
-myinput.psgchannelmapfile='psg_channelmap.txt';
+myinput.mapfile='psg_channelmap.txt';
 % debug
 myinput.debug = 0;
 
@@ -92,7 +92,7 @@ end
 myinput.channelname = upper(myinput.channelname);
 
 % read psg_channelmap.txt
-channelmaps = readtable(myinput.psgchannelmapfile,'Delimiter',':');
+channelmaps = readtable(myinput.mapfile,'Delimiter',':');
 
 if (myinput.debug)
     disp(myinput.channelname)

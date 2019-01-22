@@ -140,7 +140,7 @@ myinput.modifyheader = 1;
 % default: modify reference
 myinput.modifyreference = 0;
 %mapfile
-myinput.psgchannelmapfile='psg_channelmap.txt';
+myinput.mapfile='psg_channelmap.txt';
 % debug
 myinput.debug = 0;
 
@@ -193,7 +193,7 @@ for i=1:nsignals
     labels{i,1} = myinput.signalHeader(i).signal_labels;
     labels{i,3} = i;
     %get standardlabel -labels(i,2) and channelnumber - labels(i,4)
-    [labels{i,4},labels(i,2)]=sn_map_psgchannels('channelname',myinput.signalHeader(i).signal_labels,'mapfile',myinput.psgchannelmapfile);
+    [labels{i,4},labels(i,2)]=sn_map_psgchannels('channelname',myinput.signalHeader(i).signal_labels,'mapfile',myinput.mapfile);
 end
 
 %% Check for umlauts and replace

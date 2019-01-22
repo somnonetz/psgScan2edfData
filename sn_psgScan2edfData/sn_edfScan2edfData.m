@@ -142,7 +142,7 @@ myinput.modifyheader = 1;
 % default: modify reference
 myinput.modifyreference = 0;
 %mapfile
-myinput.psgchannelmapfile='psg_channelmap.txt';
+myinput.mapfile='psg_channelmap.txt';
 %write to xnat
 myinput.xnat = 0;
 % debug
@@ -201,6 +201,7 @@ end
     'institution',myinput.institution,...
     'device',myinput.device,...
     'modifyheader',myinput.modifyheader,...
+    'mapfile',myinput.mapfile,...
     'debug',myinput.debug);
 
 %% finish 
