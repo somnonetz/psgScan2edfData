@@ -1,6 +1,7 @@
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: sn_edfScan2edfData.sh
+baseCommand: run_sn_edfScan2edfData.sh
+
 inputs:
   data:
     type: File
