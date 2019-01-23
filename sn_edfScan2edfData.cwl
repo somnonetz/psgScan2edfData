@@ -1,6 +1,8 @@
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: run_sn_edfScan2edfData.sh
+baseCommand:
+  - run_sn_edfScan2edfData.sh
+  - ${MCR_ROOT}
 
 inputs:
   data:
