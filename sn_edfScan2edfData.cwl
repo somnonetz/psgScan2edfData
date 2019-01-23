@@ -1,6 +1,6 @@
 cwlVersion: v1.0
-class: CommandlineTool
-baseCommand: sn_edfScan2edfData
+class: CommandLineTool
+baseCommand: sn_edfScan2edfData.sh
 inputs:
   data:
     type: File
@@ -14,7 +14,7 @@ inputs:
     doc: "outputfilebase for final output edf"
   subjectid:
     type: string
-     inputBinding:
+    inputBinding:
       prefix: subjectid
     doc: "subject identifier to allow setting in header.patient_id"
   gender:
@@ -70,5 +70,7 @@ inputs:
  
 outputs:
   outputfile:
-    type: file
+    type: File
+    outputBinding:
+      glob: "*.edf"
     doc: "The standardized edf"
