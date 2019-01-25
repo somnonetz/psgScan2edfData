@@ -1,8 +1,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand:
-  - run_sn_edfScan2edfData.sh
-  - ${MCR_ROOT}
+  - "run_sn_edfScan2edfData.sh"
+  - "${MCR_ROOT}"
+  - "mapfile /home/cc/.config/psg_channelmap.txt"
 
 inputs:
   data:
@@ -60,11 +61,6 @@ inputs:
     inputBinding:
       prefix: xnat
     doc: "If set to one, xnat metadata files are written, default: 0"
-  mapfile:
-    type: File?
-    inputBinding:
-      prefix: mapfile
-    doc: "Path of file with standard labels and channels, default: ./psg_channelmap.txt"
   debug:
     type: int?
     inputBinding:
