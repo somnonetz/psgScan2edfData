@@ -48,6 +48,11 @@ function [ status, header, signalheader, signalcell, newheader, newsignalheader,
 %       inputBinding:
 %         prefix: device
 %       doc: "name of the device or of the manufacturer, default: X"
+%     startdate:
+%       type: string?
+%       inputBinding:
+%         prefix: startdate
+%       doc: "startdate of recording in the form dd.mm.yy"
 %     modifyheader:
 %       type: int?
 %       inputBinding:
@@ -189,6 +194,7 @@ if (myinput.debug)
     header
 end
 
+
 %% Transform to harmonized Data, parse parameters
 
 [ status, newheader, newsignalheader, newsignalcell] =...
@@ -200,6 +206,7 @@ end
     'localrecordid',myinput.localrecordid,...
     'institution',myinput.institution,...
     'device',myinput.device,...
+    'startdate',myinput.startdate,...
     'modifyheader',myinput.modifyheader,...
     'mapfile',myinput.mapfile,...
     'debug',myinput.debug);

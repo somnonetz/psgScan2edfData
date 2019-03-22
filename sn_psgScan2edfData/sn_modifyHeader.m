@@ -139,6 +139,8 @@ if str2num(ryear) > 85
 else
     ryear = [ '20' ryear];
 end
+
+ryear
 %datetime rather than datenum for caldiff, works not for older versions
 if strcmp(version('-release'),'2015a')
     startdateDT = datetime(str2num(ryear),str2num(rmonth),str2num(rday));
@@ -227,6 +229,8 @@ if (nRidComponents > 0 && strcmp(ridComponents{1},'Startdate'))
 end
 
 %% check for fields, set to 'X' if empty
+
+myinput
 
 if isempty(myinput.subjectid)
     myinput.subjectid = 'X';

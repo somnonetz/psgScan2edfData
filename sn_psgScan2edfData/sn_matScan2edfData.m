@@ -58,6 +58,11 @@ function [ status, newheader, newsignalHeader, newsignalCell ] = sn_matScan2edfD
 %       inputBinding:
 %         prefix: device
 %       doc: "name of the device or of the manufacturer, default: X"
+%     startdate:
+%       type: string?
+%       inputBinding:
+%         prefix: startdate
+%       doc: "startdate of recording in the form dd.mm.yy"
 %     modifyheader:
 %       type: int?
 %       inputBinding:
@@ -192,6 +197,7 @@ end
     'localrecordid',myinput.localrecordid,...
     'institution',myinput.institution,...
     'device',myinput.device,...
+    'startdate',myinput.startdate,...
     'modifyheader',myinput.modifyheader,...
     'mapfile',myinput.mapfile,...
     'debug',myinput.debug);

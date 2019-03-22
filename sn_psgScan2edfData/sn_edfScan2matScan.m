@@ -185,6 +185,27 @@ if ~isempty(strfind(header.recording_starttime,':'));
     disp('Correcting separator of starttime')
     header.recording_starttime = strrep(header.recording_starttime,':','.');
 end
+if ~isempty(strfind(header.recording_startdate,':'));
+    disp('Correcting separator of startdate')
+    header.recording_startdate = strrep(header.recording_startdate,':','.');
+end
+%check for wrong sorting of startdate
+%% get startdate of recording
+dateComponents = strsplit(header.recording_startdate,'.')
+rday = str2num(dateComponents{1});
+rmonth = str2num(dateComponents{2});
+ryear = str2num(dateComponents{3}); 
+
+if (rday > 31)
+    disp('day too large, assuming year')
+    rmonth
+    max(rmonth,32)
+    if (rmonth < 32)
+        disp('month too large, assuming day')
+        header.recording_startdate = [num2str(rmonth,'%2.2i') '.' num2str(ryear,'%2.2i') '.' num2str(rday,'%2.2i')]
+    end
+end
+
 
 %------------------------------------------------------- Load Signal Header
 try

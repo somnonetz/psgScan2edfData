@@ -53,6 +53,11 @@ function [ newheader, newsignalHeader, newsignalCell ] = sn_matScan2matData(vara
 %       inputBinding:
 %         prefix: device
 %       doc: "name of the device or of the manufacturer, default: X"
+%     startdate:
+%       type: string?
+%       inputBinding:
+%         prefix: startdate
+%       doc: "startdate of recording in the form dd.mm.yy"
 %     modifyheader:
 %       type: int?
 %       inputBinding:
@@ -198,7 +203,7 @@ end
 
 %% Check for umlauts and replace
 for i = 1:length(labels)
-    labels{i,1} = sn_replaceUmlauts(labels{i,1},'maxLength',16)
+    labels{i,1} = sn_replaceUmlauts(labels{i,1},'maxLength',16);
 end
 
 %debug
