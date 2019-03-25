@@ -203,7 +203,7 @@ end
 
 %% Check for umlauts and replace
 for i = 1:length(labels)
-    labels{i,1} = sn_replaceUmlauts(labels{i,1},'maxLength',16);
+    labels{i,1} = sn_replaceUmlauts('data',labels{i,1},'maxLength',16);
 end
 
 %debug
@@ -311,6 +311,7 @@ if (myinput.modifyheader)
         ,'localrecordid', myinput.localrecordid ...
         ,'institution', myinput.institution ...
         ,'device', myinput.device ...
+        ,'startdate',myinput.startdate...
         ,'debug',myinput.debug ...
         )
 end
@@ -318,16 +319,16 @@ end
  if(myinput.debug); disp('Check for umlauts'); end
 %signalHeader
 for i = 1:newheader.num_signals
-    newsignalHeader(i).transducer_type = sn_replaceUmlauts(newsignalHeader(i).transducer_type,'maxLength',80);
-    newsignalHeader(i).physical_dimension = sn_replaceUmlauts(newsignalHeader(i).physical_dimension,'maxLength',8);
-    newsignalHeader(i).prefiltering = sn_replaceUmlauts(newsignalHeader(i).prefiltering,'maxLength',80);
-    newsignalHeader(i).reserve_2 = sn_replaceUmlauts(newsignalHeader(i).reserve_2,'maxLength',32);
+    newsignalHeader(i).transducer_type = sn_replaceUmlauts('data',newsignalHeader(i).transducer_type,'maxLength',80,'debug',myinput.debug);
+    newsignalHeader(i).physical_dimension = sn_replaceUmlauts('data',newsignalHeader(i).physical_dimension,'maxLength',8,'debug',myinput.debug);
+    newsignalHeader(i).prefiltering = sn_replaceUmlauts('data',newsignalHeader(i).prefiltering,'maxLength',80,'debug',myinput.debug);
+    newsignalHeader(i).reserve_2 = sn_replaceUmlauts('data',newsignalHeader(i).reserve_2,'maxLength',32,'debug',myinput.debug);
 end
 
 %header
-newheader.patient_id = sn_replaceUmlauts(newheader.patient_id,'maxLength',80);
-newheader.local_rec_id = sn_replaceUmlauts(newheader.local_rec_id,'maxLength',80);
-newheader.reserve_1 = sn_replaceUmlauts(newheader.reserve_1,'maxLength',44);
+newheader.patient_id = sn_replaceUmlauts('data',newheader.patient_id,'maxLength',80,'debug',myinput.debug);
+newheader.local_rec_id = sn_replaceUmlauts('data',newheader.local_rec_id,'maxLength',80,'debug',myinput.debug);
+newheader.reserve_1 = sn_replaceUmlauts('data',newheader.reserve_1,'maxLength',44,'debug',myinput.debug);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 4. Check for correct settings in digital_min and digital_max

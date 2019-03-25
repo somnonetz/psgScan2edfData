@@ -141,6 +141,7 @@ myinput.gender = '';
 myinput.dob = '';
 myinput.localrecordid = '';
 myinput.institution = '';
+myinput.startdate = '';
 myinput.device = '';
 % default: modify header
 myinput.modifyheader = 1;

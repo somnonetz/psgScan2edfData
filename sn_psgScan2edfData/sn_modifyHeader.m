@@ -4,7 +4,7 @@ function [ header ] = sn_modifyHeader( varargin )
 % cli:
 %   cwlVersion: v1.0-extended
 %   class: matlabfunction
-%   baseCommand: [events,extrema] = sn_matScan2matData(varargin)
+%   baseCommand: [events,extrema] = sn_modifyHeader(varargin)
 %
 %   inputs:
 %     header:
@@ -97,6 +97,7 @@ myinput.dobformat = 'dd.mm.yyyy';
 myinput.localrecordid = '';
 myinput.institution = '';
 myinput.device = '';
+myinput.startdate = '';
 % debug
 myinput.debug = 0;
 
@@ -120,13 +121,72 @@ softwareinfo = 'Created with sn_modifyHeader V1.0';
 
 % debug
 if (myinput.debug)
-    disp('Starting myFunction')
+    disp('Starting sn_modifyHeader')
 end
 
-%% Start function
-if (myinput.debug)
-    disp('Welcome to sn_modifyHeader')
+%% Check for starttime
+
+% occured errors:
+% siesta-data: starttime separator is colon, not dot
+if ~isempty(strfind(myinput.header.recording_starttime,':'));
+    disp('Correcting separator of starttime')
+    myinput.header.recording_starttime = strrep(myinput.header.recording_starttime,':','.');
 end
+
+%% Check for startdate
+
+% Set new startdate, if provided as parameter
+if ~isempty(myinput.startdate)
+    myinput.header.recording_startdate = myinput.startdate;
+end
+
+% occured errors:
+% siesta data: startdate separator ist colon, not dot
+if ~isempty(strfind(myinput.header.recording_startdate,':'));
+    disp('Correcting separator of startdate')
+    myinput.header.recording_startdate = strrep(myinput.header.recording_startdate,':','.');
+end
+
+% siesta-data: dateparts are in the wrong order
+%check for wrong sorting of startdate
+%% get startdate of recording
+dateComponents = strsplit(myinput.header.recording_startdate,'.')
+rday = str2num(dateComponents{1});
+rmonth = str2num(dateComponents{2});
+ryear = str2num(dateComponents{3}); 
+
+new_startdate = [rday;rmonth;ryear];
+%check if day and year are mixed up
+if (rday > 31)
+    disp('day too large, assuming year')
+    %doublecheck: year
+    if (ryear > 31)
+        disp('there are inresolvable date information, please review and please use parameter startdate to enter a correct startdate manually')
+    else %swap
+    new_startdate(1) = ryear; 
+    new_startdate(3) = rday; 
+    end
+end
+
+%check if month and day are mixed up
+if (rmonth > 12)
+    disp('month too large, assuming day')
+    %doublecheck: day (that might have been mixed up with year already)
+    if (new_startdate(1) > 12)
+        disp('there are inresolvable date information, please review and please use parameter startdate to enter a correct startdate manually')
+    else %swap
+        new_startdate(2) = new_startdate(1);
+        new_startdate(1) = rmonth;
+    end
+end
+
+%set new startdate
+myinput.header.recording_startdate =   [num2str(new_startdate(1),'%2.2i') ...
+                                    '.' num2str(new_startdate(2),'%2.2i') ...
+                                    '.' num2str(new_startdate(3),'%2.2i')]
+   
+if myinput.debug; disp(myinput.header.recording_startdate);end
+
 
 %% get startdate of recording
 dateComponents = strsplit(myinput.header.recording_startdate,'.');
@@ -140,14 +200,15 @@ else
     ryear = [ '20' ryear];
 end
 
-ryear
 %datetime rather than datenum for caldiff, works not for older versions
-if strcmp(version('-release'),'2015a')
-    startdateDT = datetime(str2num(ryear),str2num(rmonth),str2num(rday));
-    startdateString = upper(datestr(startdateDT));
-else
+%(tested version: 2015a)
+
+if verLessThan('matlab','8.5')    
     startdateDT = [str2num(ryear),str2num(rmonth),str2num(rday),0,0,0];
     startdateString = upper(datestr(startdateDT,'dd-mmm-yyyy'));
+else
+    startdateDT = datetime(str2num(ryear),str2num(rmonth),str2num(rday));
+    startdateString = upper(datestr(startdateDT));
 end
 
 if (myinput.debug)
@@ -157,9 +218,10 @@ if (myinput.debug)
 end
 
 %% get datenum of dob, if set
+
 if ~isempty(myinput.dob)
     try
-        if strcmp(version('-release'),'2015a')
+        if ~verlessthan('matlab','8.5') %NOT less than R2015a
             dobDT = datetime(myinput.dob,'InputFormat',dobformat);
         else
             dobDT = datevec(myinput.dob,'InputFormat',dobformat);
@@ -185,7 +247,11 @@ if (nPidComponents > 0 && isempty(myinput.subjectid))
     myinput.subjectid = pidComponents{1};
 end
 if (nPidComponents > 1 && isempty(myinput.gender))
-    myinput.gender = pidComponents{2};
+    if strcmpi(pidComponents{2},'M') | strcmpi(pidComponents{2},'W')
+    myinput.gender = upper(pidComponents{2});
+    else
+     myinput.gender = 'X';   
+    end
 end
 if (nPidComponents > 2 && isempty(myinput.dob))
     myinput.dob = pidComponents{3};
@@ -269,7 +335,7 @@ end
 
 header = myinput.header;
 
-header.patient_id = [ myinput.subjectid ' ' myinput.gender myinput.dob ' X'];
+header.patient_id = [ myinput.subjectid ' ' myinput.gender ' ' myinput.dob ' X'];
 header.local_rec_id = ['Startdate ' startdateString ...
     ' ' myinput.localrecordid ...
     ' ' myinput.institution ...

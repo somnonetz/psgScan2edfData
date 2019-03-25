@@ -177,36 +177,6 @@ if (myinput.debug)
 end
 % End Header Load section
 
-%% check for errors in header
-
-% occured errors:
-% siesta-data: starttime separator is colon, not dot
-if ~isempty(strfind(header.recording_starttime,':'));
-    disp('Correcting separator of starttime')
-    header.recording_starttime = strrep(header.recording_starttime,':','.');
-end
-if ~isempty(strfind(header.recording_startdate,':'));
-    disp('Correcting separator of startdate')
-    header.recording_startdate = strrep(header.recording_startdate,':','.');
-end
-%check for wrong sorting of startdate
-%% get startdate of recording
-dateComponents = strsplit(header.recording_startdate,'.')
-rday = str2num(dateComponents{1});
-rmonth = str2num(dateComponents{2});
-ryear = str2num(dateComponents{3}); 
-
-if (rday > 31)
-    disp('day too large, assuming year')
-    rmonth
-    max(rmonth,32)
-    if (rmonth < 32)
-        disp('month too large, assuming day')
-        header.recording_startdate = [num2str(rmonth,'%2.2i') '.' num2str(ryear,'%2.2i') '.' num2str(rday,'%2.2i')]
-    end
-end
-
-
 %------------------------------------------------------- Load Signal Header
 try
     % Load signal header into memory in one load
@@ -309,9 +279,10 @@ end
 %Modification by Dagmar Krefting
 %check for invalid num_data_records
 if (num_data_records == -1)
-    disp('Invalid number of data records, calculating correct value...')
+    disp('Invalid number of data records, calculating correct values here...')
     num_data_records = count/recordWidth;
     disp(['Number of data records: ' num2str(num_data_records)])
+    header.num_data_records = num_data_records
 end
 %num_data_records
 % Reshape - Each row is a data record
