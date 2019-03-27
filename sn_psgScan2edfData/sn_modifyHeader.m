@@ -133,6 +133,9 @@ if ~isempty(strfind(myinput.header.recording_starttime,':'));
     myinput.header.recording_starttime = strrep(myinput.header.recording_starttime,':','.');
 end
 
+% siesta-data: blanks in starttime-string, replace with zeros
+myinput.header.recording_starttime = regexprep(myinput.header.recording_starttime, ' ', '0');
+   
 %% Check for startdate
 
 % Set new startdate, if provided as parameter
